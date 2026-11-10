@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " LS",
+    "LSL",
+    "TL "
+  ],
+  "key": {
+    "L": "minecraft:blaze_rod",
+    "S": "minecraft:nether_star",
+    "T": "minecraft:stick"
+  },
+  "result": {
+    "id": "wstweaks:immolation_blade",
+    "count": 1
+  }
+}

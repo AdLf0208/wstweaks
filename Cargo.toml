@@ -1,0 +1,18 @@
+[package]
+name = "horizon-wstweaks"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+license = "MIT"
+description = "Wither Skeleton Tweaks for Horizon: Nether skeleton conversion, drop cleanup, skull fragments and the Immolation Blade"
+# Ported from: Wither Skeleton Tweaks (mod id `wstweaks`, MIT), Minecraft Java
+# 1.21.1 NeoForge. Local-only port, never published without the maintainer's
+# approval.
+
+[lib]
+# This exact source is also injected as a same-crate module by horizon-mixins.
+path = "mixins/wstweaks/runtime.rs"
+
+[workspace]
+members = ["tools/audit"]
+resolver = "2"

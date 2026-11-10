@@ -1,0 +1,93 @@
+[mod]
+id = "wstweaks"
+version = "0.1.0"
+priority = 100
+
+[compatibility]
+horizon_revision = "1d63e0a5a37a7a708eb0b32b49bf0dfeb28ed8a9"
+
+# The pure logic engine (standalone crate lib, injected as
+# `crate::game::wstweaks`).
+[[module]]
+id = "runtime"
+file = "crates/horizon-client/src/game.rs"
+name = "wstweaks"
+source = "runtime.rs"
+
+# Game-side glue: the entry functions, the config and the item/drop
+# translation.
+[[module]]
+id = "state"
+file = "crates/horizon-client/src/game.rs"
+name = "wstweaks_state"
+source = "support.rs"
+
+# The content half is inside this bundle (`data/wstweaks-content.hmod`, the built
+# `content/wstweaks.hmod`): this writes it to `.horizon-cache/` and appends it to the
+# dev-mod list, so one `.hnmod` installs the fragment and the Immolation Blade with the code.
+# The registry keeps one file per project, so a split port could not be listed; AE2 ships the
+# same pattern.
+[[injection]]
+id = "embedded-content"
+kind = "HEAD"
+cancellable = true
+target = "horizon_client::game::mods::content_root"
+helper = "embedded_content.rs"
+bindings = [
+  { name = "root", ty = "&std::path::Path", value = "root" },
+  { name = "enabled", ty = "&std::collections::BTreeSet<String>", value = "enabled" },
+  { name = "dev", ty = "&[std::path::PathBuf]", value = "dev" },
+]
+
+# The server is about to open its worlds: read the config.
+[[injection]]
+id = "config"
+hook = "server_about_to_start"
+hook_version = 1
+kind = "HEAD"
+helper = "start.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+]
+
+# A mob spawned (natural, spawner, egg): convert Nether skeletons.
+[[injection]]
+id = "mob-spawned"
+hook = "mob_spawned"
+hook_version = 1
+kind = "HEAD"
+helper = "spawn.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "dimension", ty = "&str", value = "dimension" },
+  { name = "kind", ty = "&str", value = "kind" },
+  { name = "pos", ty = "[f64; 3]", value = "pos" },
+]
+
+# Drops are being rolled (mob death or block break): clean skeleton weapons
+# and add the fragment when the skull is missing.
+[[injection]]
+id = "loot-drops"
+hook = "loot_drops"
+hook_version = 1
+kind = "HEAD"
+helper = "loot.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "context", ty = "&NativeLootDrops<'_>", value = "context" },
+  { name = "drops", ty = "&mut Vec<ItemStack>", value = "drops" },
+]
+
+# A player's hit landed on a mob: the Immolation Blade's ignite and behead.
+[[injection]]
+id = "hurt-enemy"
+hook = "hurt_enemy"
+hook_version = 1
+kind = "HEAD"
+helper = "hurt.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "stack", ty = "&ItemStack", value = "stack" },
+  { name = "entity", ty = "u32", value = "entity" },
+  { name = "kind", ty = "&str", value = "kind" },
+]

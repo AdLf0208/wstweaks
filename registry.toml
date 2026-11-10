@@ -1,0 +1,49 @@
+id = "wstweaks"
+kind = "native-mod"
+name = "wstweaks"
+summary = "A Horizon port of wstweaks."
+description = """
+A port of [wstweaks](Shadows-of-Fire/Wither-Skeleton-Tweaks) for Horizon.
+
+**Implemented so far**
+
+- Wither Skull Fragments** — a wither skeleton that does not drop a Wither
+- Skeleton Skull drops a `wstweaks:fragment`. Upstream gates the drop on
+- `Shard Drop Chance` (default 1.0, i.e. always) with a `nextFloat() <=`
+- roll (`WSTLootModifier.java:44-48`, `WSTConfig.java:18`); the port reads the
+- same key from `config/wstweaks.toml`.
+- Skeleton Conversion** — any skeleton **or stray** that spawns in the
+- Nether becomes a wither skeleton. Upstream also replaces the main hand with
+- a fresh bow (`Give Bows`, default true); the replacement spawned by this
+
+**Not yet ported**
+
+- Converted-mob equipment:** upstream converts in place and, with
+- `Give Bows` (default true), puts a fresh undamaged bow in the converted
+- mob's main hand (`WSTEvents.java:39-42`). `NativeSpawn` has no equipment
+- field at the pin (`native_mobs.rs`), so the port's replacement spawns bare;
+- keeping the original's weapon instead would need a mob-equipment write API
+- (none exists; `native_on_equip` only listens). The previous note claim that
+- the converted mob "keeps its weapon" was wrong.
+- Blade damage source:** upstream's beheading deals a 150-damage
+
+Original copyright and licence notices are kept in this repository. Pinned to
+Horizon 1d63e0a and horizon-mixins 5a64af93. Help with the remaining slices is
+welcome.
+"""
+authors = ["AdLf0208"]
+owners = ["AdLf0208"]
+owner_ids = [107615167]
+license = "MIT"
+source = "https://github.com/AdLf0208/wstweaks"
+icon = "icons/wstweaks.png"
+categories = ["utility"]
+tags = ["port", "horizon"]
+
+[[versions]]
+version = "0.1.0"
+published = "2026-11-10"
+game = "26.3"
+file = "wstweaks.hnmod"
+sha256 = "3f7a43beea240eee06c2ae95dfc849416c7bb9bf61e5a649e1951c37556e10e7"
+changelog = "First release"

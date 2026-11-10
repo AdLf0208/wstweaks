@@ -1,0 +1,8 @@
+{
+  "title": "Wither Skeleton Tweaks",
+  "icon": "wstweaks:immolation_blade",
+  "items": [
+    "wstweaks:immolation_blade",
+    "wstweaks:fragment"
+  ]
+}

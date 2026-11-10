@@ -1,0 +1,11 @@
+# Wither Skeleton Tweaks content (fragment + Immolation Blade), carried from
+# the upstream MIT assets at 1.21-10.1.1 and upgraded to the 26.3 content
+# format by hand. The native bundle in ../ owns conversion, drops and the
+# blade's hit behaviour.
+# Licence: MIT — local-only until the maintainer approves publishing.
+id = "wstweaks"
+name = "Wither Skeleton Tweaks"
+version = "10.1.1"
+api = "0.2"
+side = "both"
+capabilities = ["registries"]
